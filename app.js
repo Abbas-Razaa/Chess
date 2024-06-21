@@ -3,9 +3,7 @@ const http = require('http')
 const socket = require('socket.io')
 const { Chess } = require('chess.js')
 const path = require('path')
-
 const app = express()
-
 const server = http.createServer(app)
 const io = socket(server)
 
