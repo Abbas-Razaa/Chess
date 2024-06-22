@@ -43,6 +43,26 @@ io.on('connection', function (uniquesocket) {
             delete players.black
         }
     })
+
+    uniquesocket.on('move', (move) => {
+        try {
+            if (chess.turn() === 'w' && uniquesocket.id === players.white)  return
+            if (chess.turn() === 'b' && uniquesocket.id === players.black)  return
+            const result = chess.move(move)
+
+            if(result) {
+                currentPlayer = chess.turn()
+                io.emit('move', move)
+                io.emit('boardState', chess.fen())
+            } else {
+                console.log('Invalid move:', move)
+                uniquesocket.emit('Invalid Move:', move)
+            }
+        } catch (err) {
+            console.log(err);
+            uniquesocket.emit('Invalid Move:', move)
+        }
+    })
 })
 
 server.listen(3000, function () {
