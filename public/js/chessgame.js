@@ -22,7 +22,7 @@ const renderBoard = () => {
             if (square) {
                 const pieceElement = document.createElement('div')
                 pieceElement.classList.add('piece', square.color === 'w' ? 'white' : 'black')
-                pieceElement.innerText = ''
+                pieceElement.innerText = getPieceUnicode(square)
                 pieceElement.draggable = playerRole === square.color
 
                 pieceElement.addEventListener('dragstart', (e) => {
@@ -38,12 +38,49 @@ const renderBoard = () => {
                 })
                 square.appendChild(pieceElement)
             }
+
+            squareElement.addEventListener('dragover', function(e) {
+                e.preventDefault();
+            })
+            squareElement.addEventListener('drag', function(e) {
+                e.preventDefault();
+                if(draggedPiece){
+                    const targetSource = {
+                        row: parseInt(squareElement.dataset.row),
+                        col: squareElement.dataset.col
+                    }
+                }
+                handleMove(SourceSquare, targetSource);
+            })
+            boardElement.appendChild(squareElement)
         })
     })
 }
 
-const handleMove = () => { }
+const handleMove = () => {
+    constMove = {
+        from: `${String.fromCharCode(97+source.col)}${8-source.row}`,
+        to: `${String.fromCharCode(97+target.col)}${8-target.row}`,
+        promotion:'q',
+    }
+ }
 
-const getPieceUnicode = () => { }
+const getPieceUnicode = (piece) => {
+    const unicodePieces = {
+        p:"",
+        r:"",
+        n:"",
+        b:"",
+        q:"",
+        k:"",
+        P:"",
+        R:"",
+        N:"",
+        B:"",
+        Q:"",
+        K:""
+    }
+    return unicodePieces[piece.type] || "";
+}
 
 renderBoard()
