@@ -3,6 +3,7 @@ const http = require('http')
 const socket = require('socket.io')
 const { Chess } = require('chess.js')
 const path = require('path')
+
 const app = express()
 const server = http.createServer(app)
 const io = socket(server)
@@ -21,10 +22,6 @@ app.get('/', (req, res) => {
 io.on('connection', function (uniquesocket) {
 
     console.log('Connected')
-    
-    // uniquesocket.on('disconnect', function () {
-    //     console.log('Disconnected')
-    // })
 
     if(!players.white){
         players.white = uniquesocket.id
@@ -47,8 +44,8 @@ io.on('connection', function (uniquesocket) {
 
     uniquesocket.on('move', (move) => {
         try {
-            if (chess.turn() === 'w' && uniquesocket.id === players.white)  return
-            if (chess.turn() === 'b' && uniquesocket.id === players.black)  return
+            if (chess.turn() === 'w' && uniquesocket.id !== players.white)  return
+            if (chess.turn() === 'b' && uniquesocket.id !== players.black)  return
             const result = chess.move(move)
 
             if(result) {
