@@ -39,12 +39,12 @@ const renderBoard = () => {
                 squareElement.appendChild(pieceElement)
             }
 
-            squareElement.addEventListener('dragover', function(e) {
+            squareElement.addEventListener('dragover', function (e) {
                 e.preventDefault();
             })
-            squareElement.addEventListener('drop', function(e) {
+            squareElement.addEventListener('drop', function (e) {
                 e.preventDefault();
-                if(draggedPiece){
+                if (draggedPiece) {
                     const targetSource = {
                         row: parseInt(squareElement.dataset.row),
                         col: parseInt(squareElement.dataset.col)
@@ -56,22 +56,23 @@ const renderBoard = () => {
         })
     })
 
-    if (playerRole === 'b'){
+    if (playerRole === 'b') {
         boardElement.classList.add('flipped')
     }
-    else {``
+    else {
+        ``
         boardElement.classList.remove('flipped')
     }
 }
 
-const handleMove = (source,target) => {
+const handleMove = (source, target) => {
     const move = {
-        from: `${String.fromCharCode(97+source.col)}${8 - source.row}`,
-        to: `${String.fromCharCode(97+target.col)}${8 - target.row}`,
-        promotion:'q',
+        from: `${String.fromCharCode(97 + source.col)}${8 - source.row}`,
+        to: `${String.fromCharCode(97 + target.col)}${8 - target.row}`,
+        promotion: 'q',
     }
     socket.emit('move', move)
- }
+}
 
 const getPieceUnicode = (piece) => {
     const unicodePieces = {
@@ -96,16 +97,16 @@ socket.on('playerRole', function (role) {
     renderBoard()
 })
 
-socket.on('spectatorRole', function(){
+socket.on('spectatorRole', function () {
     playerRole = null
     renderBoard()
 })
 
-socket.on('boardState',function(fen){
+socket.on('boardState', function (fen) {
     chess.load(fen)
     renderBoard()
 })
-socket.on('move',function(move){
+socket.on('move', function (move) {
     chess.move(move)
     renderBoard()
 })
