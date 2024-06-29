@@ -18,7 +18,6 @@ const renderBoard = () => {
             )
             squareElement.dataset.row = rowindex
             squareElement.dataset.col = squareindex
-
             if (square) {
                 const pieceElement = document.createElement('div')
                 pieceElement.classList.add('piece', square.color === 'w' ? 'white' : 'black')
@@ -38,7 +37,6 @@ const renderBoard = () => {
                 })
                 squareElement.appendChild(pieceElement)
             }
-
             squareElement.addEventListener('dragover', function (e) {
                 e.preventDefault();
             })
@@ -55,7 +53,6 @@ const renderBoard = () => {
             boardElement.appendChild(squareElement)
         })
     })
-
     if (playerRole === 'b') {
         boardElement.classList.add('flipped')
     }
